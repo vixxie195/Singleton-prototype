@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logger</title>
+</head>
+<body>
+
+<script>
+    // Logger class
+    class Logger {
+        constructor() {
+            if (Logger.instance) {
+                return Logger.instance;
+            }
+
+            this.logList = [];
+            Logger.instance = this;
+        }
+
+        log(message) {
+            const logEntry = `${new Date().toISOString()} - ${message}`;
+            this.logList.push(logEntry);
+            console.log(logEntry);
+        }
+
+        getLog() {
+            return this.logList.join('\n');
+        }
+    }
+
+    // Singleton Logger instance
+    const logger = new Logger();
+
+    // Abstract Program class
+    class IProgram {
+        constructor() {
+            if (this.constructor === IProgram) {
+                throw new Error("Abstract classes can't be defined!");
+            }
+            this.logger = logger;
+        }
+
+        log(message) {
+            throw new Error("Method 'log' must be implemented!");
+        }
+    }
+
+    // Example implementation of a program
+    class MyProgram extends IProgram {
+        constructor() {
+            super();
+        }
+
+        performTask() {
+            // Some logic here
+            this.log("Task performed successfully.");
+        }
+
+        log(message) {
+            this.logger.log(`[MyProgram] ${message}`);
+        }
+    }
+
+    // Example usage
+    const program1 = new MyProgram();
+    program1.performTask();
+
+    const program2 = new MyProgram();
+    program2.performTask();
+
+    // Display logs
+    console.log("All logs:");
+    console.log(logger.getLog());
+</script>
+
+</body>
+</html>
