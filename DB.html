@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DB</title>
+</head>
+<body>
+
+<script>
+    // DB class 
+    class DB {
+        constructor(url, username, password) {
+            this.url = url;
+            this.username = username;
+            this.password = password;
+            // Database initialization
+            console.log("Initializing database...");
+            // ...
+
+            console.log("Database initialized.");
+        }
+
+        query(sql) {
+            // Database query
+            console.log(`Executing query: ${sql}`);
+            // ...
+
+            console.log("Query executed.");
+        }
+
+        // Clone method for Prototype pattern
+        clone(deep = false) {
+            if (deep) {
+                return new DB(this.url, this.username, this.password);
+            } else {
+                const newDB = new DB();
+                Object.assign(newDB, this);
+                return newDB;
+            }
+        }
+    }
+
+    // Example
+    const originalDB = new DB("example.com", "user", "pass");
+    originalDB.query("SELECT * FROM table1");
+
+    // Shallow copy
+    const shallowCopyDB = originalDB.clone();
+    shallowCopyDB.query("SELECT * FROM table2");
+
+    // Deep copy
+    const deepCopyDB = originalDB.clone(true);
+    deepCopyDB.query("SELECT * FROM table3");
+</script>
+
+</body>
+</html>
